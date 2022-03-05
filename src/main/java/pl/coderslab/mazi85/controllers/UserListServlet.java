@@ -12,8 +12,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/user/list")
-public class UserList extends HttpServlet {
+@WebServlet("/users/list")
+public class UserListServlet extends HttpServlet {
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         UserDao userDao = new UserDao();

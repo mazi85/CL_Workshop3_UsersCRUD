@@ -76,28 +76,19 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Nazwa użytkownika</th>
-                                    <th>Email</th>
-                                    <th>Akcja</th>
+                                    <td><c:out value="${user.id}"/></td>
+
                                 </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach items="${allUsers}" var="user">
-                                    <tr>
-                                        <td>${user.id}</td>
-                                        <td>${user.userName}</td>
-                                        <td>${user.email}</td>
-                                        <td>
-                                            <a href="${pageContext.request.contextPath}/users/delete?id=${user.id}">Usuń</a>
-                                            <a href="${pageContext.request.contextPath}/users/edit?id=${user.id}">Edit</a>
-                                            <a href="${pageContext.request.contextPath}/users/show?id=${user.id}">Pokaż</a>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
+                                <tr>
+                                    <th>Nazwa użytkownika</th>
+                                    <td><c:out value="${user.userName}"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td><c:out value="${user.email}"/></td>
+                                </tr>
                             </table>
                         </div>
                     </div>
