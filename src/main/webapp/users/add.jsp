@@ -68,29 +68,31 @@
 <%--                ${pageContext}<br/>--%>
 <%--                ${pageContext.request}<br/>--%>
 <%--                ${pageContext.request.contextPath}<br/>--%>
-                <!-- Table -->
+                <!-- Form -->
+
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Szczegóły użytkownika</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Dodaj użytkownika</h6>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <tr>
-                                    <th>Id</th>
-                                    <td><c:out value="${user.id}"/></td>
+                        <form action="${pageContext.request.contextPath}/users/add" method="post">
 
-                                </tr>
-                                <tr>
-                                    <th>Nazwa użytkownika</th>
-                                    <td><c:out value="${user.userName}"/></td>
-                                </tr>
-                                <tr>
-                                    <th>Email</th>
-                                    <td><c:out value="${user.email}"/></td>
-                                </tr>
-                            </table>
-                        </div>
+                            <div class="form-group">
+                                <label for="InputName">Nazwa</label>
+                                <input type="text" name="name" class="form-control" placeholder="Nazwa użytkownika" id="InputName">
+                            </div>
+                            <div class="form-group">
+                                <label for="InputEmail">Email</label>
+                                <input type="email" name="email" class="form-control" id="InputEmail" placeholder="name@example.com" aria-describedby="emailHelp">
+                                <small id="emailHelp" class="form-text text-muted">Nie udostępniaj swojego adresu email</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputPassword">Hasło</label>
+                                <input type="password" name="password" class="form-control" placeholder="Hasło użytkownika" id="InputPassword">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Zapisz</button>
+                        </form>
                     </div>
                 </div>
                 <!-- Content Row -->
