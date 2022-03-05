@@ -72,27 +72,27 @@
 
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Edytuj użytkownika</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Usuń użytkownika</h6>
                     </div>
                     <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <tr>
+                                    <th>Nazwa użytkownika</th>
+                                    <td><c:out value="${user.userName}"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td><c:out value="${user.email}"/></td>
+                                </tr>
+                            </table>
+                        </div>
+
+
                         <form action="${pageContext.request.contextPath}/users/edit" method="post">
-
-                            <div class="form-group">
-                                <label for="InputName">Nazwa</label>
-                                <input type="text" name="name" class="form-control" VALUE="${user.userName}" id="InputName">
-                            </div>
-                            <div class="form-group">
-                                <label for="InputEmail">Email</label>
-                                <input type="email" name="email" class="form-control" id="InputEmail" VALUE="${user.email}">
-                            </div>
                             <input type="hidden" name="id" value="${user.id}"/>
-
-<%--                            <div class="form-group">--%>
-<%--                                <label for="InputPassword">Hasło</label>--%>
-<%--                                <input type="password" name="password" class="form-control" placeholder="Hasło użytkownika" id="InputPassword">--%>
-<%--                            </div>--%>
-
-                            <button type="submit" class="btn btn-primary">Edytuj</button>
+                            <button type="submit" class="btn btn-primary">USUŃ</button>
+                            <button type=button onclick="history.back()" class="btn btn-primary">ANULUJ</button>
                         </form>
                     </div>
                 </div>
