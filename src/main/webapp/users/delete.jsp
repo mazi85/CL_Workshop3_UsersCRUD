@@ -89,7 +89,7 @@
                         </div>
 
 
-                        <form action="${pageContext.request.contextPath}/users/edit" method="post">
+                        <form action="${pageContext.request.contextPath}/users/delete" method="post">
                             <input type="hidden" name="id" value="${user.id}"/>
                             <button type="submit" class="btn btn-primary">USUŃ</button>
                             <button type=button onclick="history.back()" class="btn btn-primary">ANULUJ</button>
