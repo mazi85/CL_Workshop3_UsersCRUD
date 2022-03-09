@@ -77,6 +77,12 @@
                     <div class="card-body">
                         <form action="${pageContext.request.contextPath}/users/add" method="post">
 
+                            <c:if test="${dataOk==false}">
+                                <div class="alert alert-danger" role="alert">
+                                    Niepoprawne dane
+                                </div>
+                            </c:if>
+
                             <div class="form-group">
                                 <label for="InputName">Nazwa</label>
                                 <input type="text" name="name" class="form-control" placeholder="Nazwa użytkownika" id="InputName">

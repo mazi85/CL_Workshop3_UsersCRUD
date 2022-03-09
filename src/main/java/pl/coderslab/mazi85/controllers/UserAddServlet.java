@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
+
 
 
 @WebServlet("/users/add")
@@ -30,12 +30,29 @@ public class UserAddServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        try {
-            userDao.create(new User(email, userName, password));
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if(parametersValid(userName,email,password)){
+            try {
+                userDao.create(new User(email, userName, password));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            resp.sendRedirect(getServletContext().getContextPath() + "/users/list");
         }
-        resp.sendRedirect(getServletContext().getContextPath() + "/users/list");
+        else {
+            req.setAttribute("dataOk","false");
+            getServletContext().getRequestDispatcher("/users/add.jsp")
+                    .forward(req, resp);
+        }
+
+
+    }
+
+    private boolean parametersValid(String userName, String email, String password) {
+        if (userName == null || email==null || password==null
+        || email.equals("") || password.equals("")){
+            return false;
+        }
+        return true;
     }
 
 
