@@ -68,39 +68,40 @@
 <%--                ${pageContext}<br/>--%>
 <%--                ${pageContext.request}<br/>--%>
 <%--                ${pageContext.request.contextPath}<br/>--%>
-                <!-- Table -->
+                <!-- Form -->
+
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Lista użytkowników</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Zmień hasło użytkownika</h6>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Nazwa użytkownika</th>
-                                    <th>Email</th>
-                                    <th>Akcja</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach items="${allUsers}" var="user">
-                                    <tr>
-                                        <td>${user.id}</td>
-                                        <td>${user.userName}</td>
-                                        <td>${user.email}</td>
-                                        <td>
-                                            <a href="${pageContext.request.contextPath}/users/delete?id=${user.id}">Usuń</a>
-                                            <a href="${pageContext.request.contextPath}/users/edit?id=${user.id}">Edycja</a>
-                                            <a href="${pageContext.request.contextPath}/users/editPass?id=${user.id}">Hasło</a>
-                                            <a href="${pageContext.request.contextPath}/users/show?id=${user.id}">Pokaż</a>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
-                        </div>
+                        <form action="${pageContext.request.contextPath}/users/editPass" method="post">
+
+                            <input type="hidden" name="id" value="${user.id}"/>
+
+                            <c:if test="${updatePassOk==false}">
+                            <div class="alert alert-danger" role="alert">
+                                Błędne hasło
+                            </div>
+                            </c:if>
+                            <c:if test="${updatePassOk==true}">
+                            <div class="alert alert-success" role="alert">
+                                Zaktualizowano hasło
+                            </div>
+                            </c:if>
+
+                            <div class="form-group">
+                                <label for="InputOldPassword">Podaj stare hasło</label>
+                                <input type="password" name="oldPass" class="form-control" placeholder="Stare hasło użytkownika" id="InputOldPassword">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="InputNewPassword">Podaj nowe hasło</label>
+                                <input type="password" name="newPass" class="form-control" placeholder="Nowe hasło użytkownika" id="InputNewPassword">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Zatwierdź hasło</button>
+                        </form>
                     </div>
                 </div>
                 <!-- Content Row -->
