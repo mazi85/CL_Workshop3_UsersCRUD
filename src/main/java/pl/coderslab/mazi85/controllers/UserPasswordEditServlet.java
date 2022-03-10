@@ -54,7 +54,7 @@ public class UserPasswordEditServlet extends HttpServlet {
             else {
                 req.setAttribute("updatePassOk","false");
                 req.setAttribute("user",user);
-                logger.info("{}: {}", "nie poprawne hasło użytkownia",user);
+                logger.info("{}: {}", "nie poprawne hasło użytkownika",user);
             }
         } catch (SQLException e) {
             e.printStackTrace();

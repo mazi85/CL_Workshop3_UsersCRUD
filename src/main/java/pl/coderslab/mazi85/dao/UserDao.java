@@ -31,6 +31,9 @@ public class UserDao {
     private static final String UPDATE_USER_PASSWORD_QUERY =
             "UPDATE users SET password=? WHERE id=?";
 
+    private static final String READ_USER_BY_EMAIL_QUERY =
+            "SELECT * FROM users WHERE email=?";
+
 
     public User create(User user) throws SQLException {
         user.setPassword(hashPassword(user.getPassword()));
@@ -55,6 +58,27 @@ public class UserDao {
         try (Connection connect = DbUtil.getConnection()) {
             PreparedStatement ps = connect.prepareStatement(READ_USER_QUERY);
             ps.setInt(1, userId);
+            ps.executeQuery();
+            ResultSet rs = ps.getResultSet();
+
+            if (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt(1));
+                user.setEmail(rs.getString(2));
+                user.setUserName(rs.getString(3));
+                user.setPassword(rs.getString(4));
+                return user;
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new SQLException();
+        }
+    }
+
+    public User readByEmial(String email) throws SQLException {
+        try (Connection connect = DbUtil.getConnection()) {
+            PreparedStatement ps = connect.prepareStatement(READ_USER_BY_EMAIL_QUERY);
+            ps.setString(1, email);
             ps.executeQuery();
             ResultSet rs = ps.getResultSet();
 

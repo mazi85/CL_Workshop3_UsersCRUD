@@ -14,41 +14,40 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 
+@WebServlet({"/register"})
+public class UserRegisterServlet extends HttpServlet {
 
-@WebServlet({"/users/add"})
-public class UserAddServlet extends HttpServlet {
-
-    private static final Logger logger = LogManager.getLogger(UserAddServlet.class.getName());
+    UserDao userDao = new UserDao();
+    private static final Logger logger = LogManager.getLogger(pl.coderslab.mazi85.controllers.UserRegisterServlet.class.getName());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        getServletContext().getRequestDispatcher("/users/add.jsp")
+        getServletContext().getRequestDispatcher("/login/register.jsp")
                 .forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        UserDao userDao = new UserDao();
+
         String userName = req.getParameter("name");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        if(parametersValid(userName,email,password)){
+        if (parametersValid(userName, email, password)) {
             try {
                 User user = userDao.create(new User(email, userName, password));
-                logger.info("dodano użytkownika: {}",user);
+                logger.info("dodano użytkownika: {}", user);
             } catch (SQLException e) {
                 e.printStackTrace();
                 logger.error("błąd bazy SQL, nie dodano użytkownika");
             }
             resp.sendRedirect(getServletContext().getContextPath() + "/users/list");
-        }
-        else {
-            req.setAttribute("dataOk","false");
+        } else {
+            req.setAttribute("dataOk", "false");
             logger.info("wprowadzono nie poprawne dane dla nowego użytkownika");
-            getServletContext().getRequestDispatcher("/users/add.jsp")
+            getServletContext().getRequestDispatcher("/login/register.jsp")
                     .forward(req, resp);
         }
 
@@ -56,12 +55,13 @@ public class UserAddServlet extends HttpServlet {
     }
 
     private boolean parametersValid(String userName, String email, String password) {
-        if (userName == null || email==null || password==null
-        || email.equals("") || password.equals("")){
+        if (userName == null || email == null || password == null
+                || email.equals("") || password.equals("")) {
             return false;
         }
         return true;
     }
-}
 
+
+}
 
