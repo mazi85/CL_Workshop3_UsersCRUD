@@ -33,11 +33,12 @@ public class UserDao {
 
 
     public User create(User user) throws SQLException {
+        user.setPassword(hashPassword(user.getPassword()));
         try (Connection connect = DbUtil.getConnection()) {
             PreparedStatement psCreate = connect.prepareStatement(CREATE_USER_QUERY, PreparedStatement.RETURN_GENERATED_KEYS);
             psCreate.setString(1, user.getEmail());
             psCreate.setString(2, user.getUserName());
-            psCreate.setString(3, hashPassword(user.getPassword()));
+            psCreate.setString(3, user.getPassword());
             psCreate.executeUpdate();
             ResultSet rsKeys = psCreate.getGeneratedKeys();
             if (rsKeys.next()) {

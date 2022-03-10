@@ -1,5 +1,7 @@
 package pl.coderslab.mazi85.controllers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.coderslab.mazi85.dao.UserDao;
 import pl.coderslab.mazi85.entity.User;
 
@@ -16,10 +18,10 @@ import java.sql.SQLException;
     @WebServlet("/users/delete")
     public class UserDeleteServlet extends HttpServlet {
         UserDao userDao = new UserDao();
+        private static final Logger logger = LogManager.getLogger(UserDeleteServlet.class.getName());
 
         @Override
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 
             String id = request.getParameter("id");
             try {
@@ -27,6 +29,7 @@ import java.sql.SQLException;
                 request.setAttribute("user",user);
             } catch (SQLException e) {
                 e.printStackTrace();
+                logger.error("błąd bazy SQL, nie udało się odczytać użytkownika");
             }
             getServletContext().getRequestDispatcher("/users/delete.jsp")
                     .forward(request, response);
@@ -37,8 +40,10 @@ import java.sql.SQLException;
             String id = req.getParameter("id");
             try {
                 userDao.delete(Integer.parseInt(id));
+                logger.info("{}: {}", "usunięto użytkownika o id",id);
             } catch (SQLException e) {
                 e.printStackTrace();
+                logger.error("błąd bazy SQL, nie udało się usunąć użytkownika");
             }
             resp.sendRedirect(getServletContext().getContextPath() + "/users/list");
 

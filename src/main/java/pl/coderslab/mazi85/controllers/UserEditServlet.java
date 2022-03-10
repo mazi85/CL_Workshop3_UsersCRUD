@@ -1,5 +1,7 @@
 package pl.coderslab.mazi85.controllers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.coderslab.mazi85.dao.UserDao;
 import pl.coderslab.mazi85.entity.User;
 
@@ -15,6 +17,8 @@ import java.sql.SQLException;
 @WebServlet("/users/edit")
 public class UserEditServlet extends HttpServlet {
     UserDao userDao = new UserDao();
+    private static final Logger logger = LogManager.getLogger(UserEditServlet.class.getName());
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -25,6 +29,7 @@ public class UserEditServlet extends HttpServlet {
             request.setAttribute("user",user);
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("[{}]: {}", Thread.currentThread().getId(), "błąd bazy SQL, nie udało się odczytać użytkownika");
         }
         getServletContext().getRequestDispatcher("/users/edit.jsp")
                 .forward(request, response);
@@ -46,15 +51,18 @@ public class UserEditServlet extends HttpServlet {
                     user.setUserName(userName);
                     user.setEmail(email);
                     userDao.update(user);
+                    logger.info("{}: {}", "edytowano użytkownika",user);
                     resp.sendRedirect(getServletContext().getContextPath() + "/users/list");
                 }else {
                     req.setAttribute("user",user);
                     req.setAttribute("dataOk","false");
+                    logger.info("{}: {}","wprowadzono nie poprawne dane użytkownika",user);
                     getServletContext().getRequestDispatcher("/users/edit.jsp")
                             .forward(req, resp);
                 }
 
             } catch (SQLException e) {
+                logger.error("błąd bazy SQL, nie udało się edytować użytkownika");
                 e.printStackTrace();
             }
 

@@ -1,5 +1,7 @@
 package pl.coderslab.mazi85.controllers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 import pl.coderslab.mazi85.dao.UserDao;
 import pl.coderslab.mazi85.entity.User;
@@ -17,6 +19,7 @@ import java.sql.SQLException;
 public class UserPasswordEditServlet extends HttpServlet {
 
     UserDao userDao = new UserDao();
+    private static final Logger logger = LogManager.getLogger(UserPasswordEditServlet.class.getName());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,6 +30,7 @@ public class UserPasswordEditServlet extends HttpServlet {
             request.setAttribute("user",user);
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("błąd bazy SQL, nie udało się odczytać użytkownika");
         }
         getServletContext().getRequestDispatcher("/users/editPass.jsp")
                 .forward(request, response);
@@ -42,15 +46,19 @@ public class UserPasswordEditServlet extends HttpServlet {
         try {
             User user = userDao.read(Integer.parseInt(id));
             if (BCrypt.checkpw(oldPass,user.getPassword())){
-            userDao.updatePassword(user,newPass);
-            req.setAttribute("updatePassOk","true");
-                req.setAttribute("user",user);}
+                userDao.updatePassword(user,newPass);
+                req.setAttribute("updatePassOk","true");
+                req.setAttribute("user",user);
+                logger.info("{}: {}", "zaktualizowano hasło użytkownika",user);
+            }
             else {
                 req.setAttribute("updatePassOk","false");
                 req.setAttribute("user",user);
+                logger.info("{}: {}", "nie poprawne hasło użytkownia",user);
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("błąd bazy SQL, nie udało się edytować użytkownika");
         }
 
         getServletContext().getRequestDispatcher("/users/editPass.jsp")

@@ -91,10 +91,11 @@
                                         <td>${user.userName}</td>
                                         <td>${user.email}</td>
                                         <td>
-                                            <a href="${pageContext.request.contextPath}/users/delete?id=${user.id}">Usuń</a>
-                                            <a href="${pageContext.request.contextPath}/users/edit?id=${user.id}">Edycja</a>
-                                            <a href="${pageContext.request.contextPath}/users/editPass?id=${user.id}">Hasło</a>
-                                            <a href="${pageContext.request.contextPath}/users/show?id=${user.id}">Pokaż</a>
+                                            <a class="btn btn-primary lift" href="${pageContext.request.contextPath}/users/delete?id=${user.id}">Usuń</a>
+                                            <a class="btn btn-primary lift" href="${pageContext.request.contextPath}/users/edit?id=${user.id}">Edycja</a>
+                                            <a class="btn btn-primary lift" href="${pageContext.request.contextPath}/users/editPass?id=${user.id}">Hasło</a>
+                                            <a class="btn btn-primary lift" href="${pageContext.request.contextPath}/users/show?id=${user.id}">Pokaż</a>
+
                                         </td>
                                     </tr>
                                 </c:forEach>
